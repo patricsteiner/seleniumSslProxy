@@ -114,8 +114,8 @@ public class SeleniumSslProxy extends Proxy {
         HttpVersion httpVersion = HttpVersion.valueOf(okhttpResponse.protocol().toString());
 
         ByteBuf content = null;
-        try {
-            content = Unpooled.wrappedBuffer(okhttpResponse.body().bytes());
+        try (ResponseBody body = okhttpResponse.body()){
+            content = Unpooled.wrappedBuffer(body.bytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
